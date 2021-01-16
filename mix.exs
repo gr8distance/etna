@@ -1,13 +1,24 @@
 defmodule Etna.MixProject do
   use Mix.Project
 
+  @description """
+  Etna is a utility library inspired by RubyGem's ActiveSupport.
+  It provides a convenient function protocol often used in Rails.
+  """
+
   def project do
     [
       app: :etna,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: @description,
+      package: [
+        maintainers: ["gr8distance"],
+        licenses: ["MIT"],
+        links: %{ Github: "https://github.com/gr8distance/etna" }
+      ]
     ]
   end
 
