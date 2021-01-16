@@ -1,6 +1,8 @@
 defmodule EtnaTest do
   use ExUnit.Case
 
+  doctest Etna
+
   describe "List" do
     test "compact return list without nil" do
       assert Etna.compact([1, nil, 3]) == [1, 3]
