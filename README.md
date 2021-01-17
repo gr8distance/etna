@@ -1,6 +1,6 @@
 # Etna
 
-**TODO: Add description**
+**Etna is a utility library inspired by RubyGem's ActiveSupport. It provides a convenient function protocol often used in Rails.**
 
 ## Installation
 
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/etna](https://hexdocs.pm/etna).
-
