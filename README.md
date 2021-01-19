@@ -10,7 +10,7 @@ by adding `etna` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:etna, "~> 0.1.0"}
+    {:etna, "~> 0.1.2"}
   ]
 end
 ```
