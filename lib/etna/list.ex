@@ -7,6 +7,11 @@ defimpl Etna, for: List do
 
   def exclude?(list, val), do: !include?(list, val)
 
+  def sum([h|t]) when is_number(h), do: [h|t] |> Enum.sum
+  def sum([h|t]) when is_bitstring(h), do: [h|t] |> Enum.join
+  def sum([h|t]) when is_list(h), do: [h|t] |> List.flatten |> sum
+  def sum([_|_]), do: {:error, "invalid types"}
+
   def sum(list, f) do
     list
     |> Enum.map(f)

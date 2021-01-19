@@ -17,8 +17,6 @@ defprotocol Etna do
 
   @doc """
 
-
-
   #### when list
 
   ```elixir
@@ -32,8 +30,6 @@ defprotocol Etna do
   def include?(enum, val)
 
   @doc """
-
-
 
   #### when list
 
@@ -49,6 +45,20 @@ defprotocol Etna do
 
   @doc """
 
+  #### when list
+  ```elixir
+  iex(9)> Etna.sum([10, 20, 30])
+  60
+  iex(10)> Etna.sum(["a", "b", "c"])
+  "abc"
+  iex(11)> Etna.sum([[1,2,3], [4,5,6]])
+  21
+  ```
+  """
+
+  def sum(enum)
+
+  @doc """
 
   #### when list
   ```elixir

@@ -18,7 +18,14 @@ defmodule EtnaTest do
       assert Etna.exclude?([1, 2, 3], 2) == false
     end
 
-    test "sum returns the sum of lists" do
+    test "sum/1 return sum of lists" do
+      assert Etna.sum([1, 2, 3]) == 6
+      assert Etna.sum(["hello", "world", "!!"]) == "helloworld!!"
+      assert Etna.sum([[1,2,3], [4,5,6]]) == 21
+      assert Etna.sum([{1, 2, 3}]) == {:error, "invalid types"}
+    end
+
+    test "sum/2 returns the sum of lists using functions" do
       args = [%{age: 25}, %{age: 30}]
       assert Etna.sum(args, fn a -> a.age end) == 55
     end
