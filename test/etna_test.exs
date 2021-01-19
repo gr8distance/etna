@@ -93,4 +93,103 @@ defmodule EtnaTest do
       assert Etna.symbolize_keys([]) == {:error, Etna.List}
     end
   end
+
+  describe "Map" do
+    test "compact returns %{} when map is nil or value is nil" do
+      assert Etna.compact(%{a: nil}) == %{}
+      assert Etna.compact(%{b: nil, c: 10}) == %{c: 10}
+      assert Etna.compact(%{}) == %{}
+    end
+
+    test "include? returns true when key has same value" do
+      assert Etna.include?(%{a: 10}, :a) == true
+      assert Etna.include?(%{"a" => 10}, "a") == true
+      assert Etna.include?(%{a: 10}, "a") == false
+      assert Etna.include?(%{a: 10}, :b) == false
+      assert Etna.include?(%{}, :A) == false
+    end
+
+    test "exclud? returns true when key has not same value" do
+      assert Etna.exclude?(%{a: 10}, :a) == false
+      assert Etna.exclude?(%{"a" => 10}, "a") == false
+      assert Etna.exclude?(%{a: 10}, "a") == true
+      assert Etna.exclude?(%{a: 10}, :b) == true
+      assert Etna.exclude?(%{}, :A) == true
+    end
+
+    test "sum/1 returns culculated values" do
+      assert Etna.sum(%{a: 10, b: 20}) == 30
+      assert Etna.sum(%{a: "hello", b: "world"}) == "helloworld"
+      assert Etna.sum(%{a: [1, 2], b: [3, 4]}) == 10
+    end
+
+    test "sum/2 returns error" do
+      assert Etna.sum(%{a: 10}, fn -> nil end) == {:error, Etna.Map}
+    end
+
+    test "index_by returns a Map with the specified value as the key" do
+      map = %{name: "pantani", age: 20, job: :rider}
+      assert Etna.index_by(map, fn {k, _} -> k end) == %{name: {:name, "pantani"}, age: {:age, 20}, job: {:job, :rider}}
+    end
+
+    test "many? returns true when it has key with values" do
+      assert Etna.many?(%{}) == false
+      assert Etna.many?(%{key: 10}) == true
+      assert Etna.many?(%{"key" => "value"}) == true
+    end
+
+    test "present? is an alias for many?" do
+      assert Etna.present?(%{}) == false
+      assert Etna.present?(%{key: 10}) == true
+      assert Etna.present?(%{"key" => "value"}) == true
+    end
+
+    test "without alias Map.delete or Map.drop" do
+      map = %{name: "pantani", age: 28, job: :rider}
+      assert Etna.without(map, :name) == %{age: 28, job: :rider}
+      assert Etna.without(map, :age) == %{name: "pantani", job: :rider}
+      assert Etna.without(map, :not_specified) == map
+      assert Etna.without(map, [:name, :age]) == %{job: :rider}
+    end
+
+    test "pluck returns error" do
+      assert Etna.pluck(%{key: "value"}, :key) == {:error, Etna.Map}
+    end
+
+    test "to returns error" do
+      assert Etna.to(%{key: "value"}, 2) == {:error, Etna.Map}
+    end
+
+    test "from returns error" do
+      assert Etna.from(%{key: "value"}, 1) == {:error, Etna.Map}
+    end
+
+    test "except alias Map.delete" do
+      map = %{name: "pantani", age: 28, job: :rider}
+      assert Etna.except(map, :name) == %{age: 28, job: :rider}
+      assert Etna.except(map, :age) == %{name: "pantani", job: :rider}
+      assert Etna.except(map, :not_specified) == map
+    end
+
+    test "stringify_keys returns stringified map" do
+      assert Etna.stringify_keys(%{name: "pantani", age: 28}) == %{"name" => "pantani", "age" => 28}
+      assert Etna.stringify_keys(%{"name" => "pantani", "age" => 28}) == %{"name" => "pantani", "age" => 28}
+    end
+
+    test "symbolize_keys returns stringified map" do
+      assert Etna.symbolize_keys(%{"name" => "pantani", "age" => 28}) == %{name: "pantani", age: 28}
+      assert Etna.symbolize_keys(%{name: "pantani", age: 28}) == %{name: "pantani", age: 28}
+    end
+
+    test "blank? returns true when %{}" do
+      assert Etna.blank?(%{}) == true
+      assert Etna.blank?(%{key: 10}) == false
+      assert Etna.blank?(%{"key" => "value"}) == false
+    end
+
+    test "wrap returns [map]" do
+      assert Etna.wrap(%{}) == [%{}]
+      assert Etna.wrap(%{name: "pantani", age: 28}) == [%{name: "pantani", age: 28}]
+    end
+  end
 end
