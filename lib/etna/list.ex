@@ -1,6 +1,4 @@
 defimpl Etna, for: List do
-  require IEx
-
   def compact(list), do: list |> Enum.reject(& &1 == nil)
 
   def include?(list, val), do: list |> Enum.any?(& &1 == val)
